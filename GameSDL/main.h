@@ -1,0 +1,94 @@
+#ifndef MAIN_H
+#define MAIN_H
+
+#include "Base.h"
+#include "LTexture.h"
+
+bool init();
+
+bool loadMedia();
+
+void close();
+
+SDL_Window* gWindow = NULL;
+SDL_Renderer* gRenderer = NULL;
+
+LTexture gBoardGridTexture;
+
+bool init()
+{
+	bool success = true;
+
+	if (SDL_Init(SDL_INIT_VIDEO) < 0)
+	{
+		std::cout << "Can not initialize SDL" << SDL_GetError() << std::endl;
+		success = false;
+	}
+	else
+	{
+		if (!SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "1"))
+		{
+			std::cout << "Warning: Linear texture filtering not enabled!";
+		}
+
+		gWindow = SDL_CreateWindow("TETRIS", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
+								   SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
+		if (gWindow == NULL)
+		{
+			std::cout << "Can not create window" << SDL_GetError() << std::endl;
+			success = false;
+		}
+		else
+		{
+			gRenderer = SDL_CreateRenderer(gWindow, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
+			if (gRenderer == NULL)
+			{
+				std::cout << "Can not creater renderer" << SDL_GetError() << std::endl;
+				success = false;
+			}
+			else
+			{
+				SDL_SetRenderDrawColor(gRenderer, 0xFF, 0xFF, 0xFF, 0xFF);
+
+				int imgFlags = IMG_INIT_PNG;
+				if (!(IMG_Init(imgFlags) & imgFlags))
+				{
+					std::cout << "Can not initialize SDL_image" << IMG_GetError() << std::endl;
+					success = false;
+				}
+
+    
+			}
+		}
+	}
+
+	return success;
+}
+
+bool loadMedia()
+{
+    bool success = true;
+
+    if (!gBoardGridTexture.loadFromFile("images/board.png", gRenderer))
+    {
+        std::cout << "Failed to load board grid texture" << std::endl;
+        success = false;
+    }
+
+    return success;
+}
+
+void close() 
+{
+    gBoardGridTexture.free();
+
+    SDL_DestroyRenderer(gRenderer);
+    SDL_DestroyWindow(gWindow);
+    gWindow = NULL;
+    gRenderer = NULL;
+
+    IMG_Quit();
+    SDL_Quit();
+}
+
+#endif // MAIN_H
