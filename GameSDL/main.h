@@ -3,6 +3,7 @@
 
 #include "Base.h"
 #include "LTexture.h"
+#include "Render.h"
 
 bool init();
 
@@ -13,7 +14,8 @@ void close();
 SDL_Window* gWindow = NULL;
 SDL_Renderer* gRenderer = NULL;
 
-LTexture gBoardGridTexture;
+LTexture gBackgroundTexture;
+LTexture gGroundTexture;
 
 bool init()
 {
@@ -31,7 +33,7 @@ bool init()
 			std::cout << "Warning: Linear texture filtering not enabled!";
 		}
 
-		gWindow = SDL_CreateWindow("TETRIS", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
+		gWindow = SDL_CreateWindow("Flappy Bird", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
 								   SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
 		if (gWindow == NULL)
 		{
@@ -69,18 +71,23 @@ bool loadMedia()
 {
     bool success = true;
 
-    if (!gBoardGridTexture.loadFromFile("images/board.png", gRenderer))
+    if (!gBackgroundTexture.loadFromFile("assets/images/background-day.png", gRenderer))
     {
         std::cout << "Failed to load board grid texture" << std::endl;
         success = false;
     }
+	if (!gGroundTexture.loadFromFile("assets/images/base.png", gRenderer)) {
+		std::cout << "Failed to load ground texture" << std::endl;
+		success = false;
+	}
 
     return success;
 }
 
 void close() 
 {
-    gBoardGridTexture.free();
+    gBackgroundTexture.free();
+	gGroundTexture.free();
 
     SDL_DestroyRenderer(gRenderer);
     SDL_DestroyWindow(gWindow);

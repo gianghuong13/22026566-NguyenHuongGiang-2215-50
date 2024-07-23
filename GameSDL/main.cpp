@@ -16,6 +16,7 @@ int main(int argc, char* argv[])
         {
             bool quit = false;
             SDL_Event e;
+            int scrollingOffset = 0;
             while (!quit) 
             {
                 while (SDL_PollEvent(&e) != 0)
@@ -25,8 +26,9 @@ int main(int argc, char* argv[])
                         quit = true;
                     }
                 }
-
-                gBoardGridTexture.render(0, 0, gRenderer);
+                SDL_RenderClear(gRenderer);
+                gBackgroundTexture.render(0, 0, gRenderer);
+                renderScrollingGround(scrollingOffset, gGroundTexture, gRenderer);
                 SDL_RenderPresent(gRenderer);
             }
 

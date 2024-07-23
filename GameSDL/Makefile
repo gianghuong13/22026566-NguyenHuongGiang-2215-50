@@ -3,7 +3,7 @@
 #and may not be redistributed without written permission.
 
 #OBJS specifies which files to compile as part of the project
-OBJS = LTexture.cpp main.cpp Base.cpp
+OBJS = LTexture.cpp main.cpp Base.cpp Render.cpp
 
 #CC specifies which compiler we're using
 CC = g++
@@ -23,7 +23,7 @@ COMPILER_FLAGS = -w -Wl,-subsystem,windows
 LINKER_FLAGS = -lmingw32 -lSDL2main -lSDL2 -lSDL2_image -lSDL2_ttf -lSDL2_mixer
 
 #OBJ_NAME specifies the name of our exectuable
-OBJ_NAME = game
+OBJ_NAME = flappybird
 
 #This is the target that compiles our executable
 all : $(OBJS)
