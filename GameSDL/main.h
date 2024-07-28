@@ -4,11 +4,10 @@
 #include "Base.h"
 #include "LTexture.h"
 #include "Render.h"
+#include "Bird.h"
 
 bool init();
-
 bool loadMedia();
-
 void close();
 
 SDL_Window* gWindow = NULL;
@@ -16,6 +15,9 @@ SDL_Renderer* gRenderer = NULL;
 
 LTexture gBackgroundTexture;
 LTexture gGroundTexture;
+LTexture gBirdTexture;
+
+Bird bird;
 
 bool init()
 {
@@ -80,6 +82,10 @@ bool loadMedia()
 		std::cout << "Failed to load ground texture" << std::endl;
 		success = false;
 	}
+	if (!gBirdTexture.loadFromFile("assets/images/yellowbird-midflap.png", gRenderer)) { 
+		std::cout << "failed to load bird image";
+		success = false;
+	}
 
     return success;
 }
@@ -88,7 +94,7 @@ void close()
 {
     gBackgroundTexture.free();
 	gGroundTexture.free();
-
+	gBirdTexture.free();
     SDL_DestroyRenderer(gRenderer);
     SDL_DestroyWindow(gWindow);
     gWindow = NULL;

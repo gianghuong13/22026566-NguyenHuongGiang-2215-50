@@ -17,6 +17,7 @@ int main(int argc, char* argv[])
             bool quit = false;
             SDL_Event e;
             int scrollingOffset = 0;
+
             while (!quit) 
             {
                 while (SDL_PollEvent(&e) != 0)
@@ -25,10 +26,16 @@ int main(int argc, char* argv[])
                     {
                         quit = true;
                     }
+                    bird.handleEvent(e);
                 }
+                bird.move();
+
                 SDL_RenderClear(gRenderer);
                 gBackgroundTexture.render(0, 0, gRenderer);
                 renderScrollingGround(scrollingOffset, gGroundTexture, gRenderer);
+
+                bird.render(gRenderer, gBirdTexture);
+                
                 SDL_RenderPresent(gRenderer);
             }
 

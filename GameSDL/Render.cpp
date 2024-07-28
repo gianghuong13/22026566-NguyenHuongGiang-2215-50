@@ -9,6 +9,6 @@ void renderScrollingGround(int& scrollingOffset,
 	{
 		scrollingOffset = 0;
 	}
-	gGroundTexture.render(scrollingOffset, 400, gRenderer);
-	gGroundTexture.render(scrollingOffset + gGroundTexture.getWidth(), 400, gRenderer);
+	gGroundTexture.render(scrollingOffset, GROUND_POS_Y, gRenderer);
+	gGroundTexture.render(scrollingOffset + gGroundTexture.getWidth(), GROUND_POS_Y, gRenderer);
 }

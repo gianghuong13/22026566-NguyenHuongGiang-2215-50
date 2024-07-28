@@ -12,6 +12,8 @@
 const int SCREEN_WIDTH = 288;
 const int SCREEN_HEIGHT = 500;
 
-const int GROUND_SCROLLING_SPEED = 1;
+const int GROUND_SCROLLING_SPEED = 3;
+
+const int GROUND_POS_Y = 400;
 
 #endif // BASE_H
