@@ -3,7 +3,7 @@
 #and may not be redistributed without written permission.
 
 #OBJS specifies which files to compile as part of the project
-OBJS = LTexture.cpp main.cpp Base.cpp Render.cpp Bird.cpp
+OBJS = LTexture.cpp main.cpp Base.cpp Render.cpp Bird.cpp Pipe.cpp Functions.cpp LButton.cpp
 
 #CC specifies which compiler we're using
 CC = g++

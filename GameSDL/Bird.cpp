@@ -1,10 +1,10 @@
 #include "Bird.h";
 
 Bird::Bird() {
-    mPosX = 50;
-    mPosY = 100;
+    mPosX = SCREEN_WIDTH / 2 - 30;
+    mPosY = 150;
     mVelY = 0;
-    status = FALL;
+    status = IDLE;
 }
 
 void Bird::render(SDL_Renderer *gRenderer, LTexture &gBirdTexture) {
@@ -28,6 +28,9 @@ void Bird::move() {
     if (status == JUMP) {
         mVelY = JUMP_VEL;
         status = FALL;
+    }
+    else if (status == IDLE) {
+        mVelY = 0;
     } else {
         mVelY += FALL_VEL;
     }
@@ -50,7 +53,7 @@ int Bird::getPosX() {
     return mPosX;
 }
 
-int Bird::getPosY() {
+float Bird::getPosY() {
     return static_cast<int>(mPosY);
 }
 

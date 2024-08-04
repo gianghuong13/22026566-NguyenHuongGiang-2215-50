@@ -5,7 +5,8 @@
 
 #define JUMP 1
 #define FALL 0
-#define JUMP_VEL -7
+#define IDLE 2
+#define JUMP_VEL -5.5f
 #define FALL_VEL 0.5f
 
 const int BIRD_WIDTH = 34;
@@ -29,7 +30,7 @@ public:
 
     int getPosX();
 
-    int getPosY();
+    float getPosY();
 
     bool isOnGround();
 };

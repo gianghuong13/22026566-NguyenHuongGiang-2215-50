@@ -5,6 +5,9 @@
 #include "LTexture.h"
 #include "Render.h"
 #include "Bird.h"
+#include "Pipe.h"
+#include "Functions.h"
+#include "LButton.h"
 
 bool init();
 bool loadMedia();
@@ -16,8 +19,13 @@ SDL_Renderer* gRenderer = NULL;
 LTexture gBackgroundTexture;
 LTexture gGroundTexture;
 LTexture gBirdTexture;
+LTexture gPipeTexture;
+LTexture gPlayButtonTexture;
+
+LButton gPlayButton(PLAY_BUTTON_POS_X, PLAY_BUTTON_POS_Y);
 
 Bird bird;
+std::vector<Pipe> pipes;
 
 bool init()
 {
@@ -86,7 +94,14 @@ bool loadMedia()
 		std::cout << "failed to load bird image";
 		success = false;
 	}
-
+	if (!gPipeTexture.loadFromFile("assets/images/pipe-green.png", gRenderer)) {
+		std::cout << "fail to load pipe";
+		success = false;
+	}
+	if (!gPlayButtonTexture.loadFromFile("assets/images/PlayBtn.png", gRenderer)) {
+		std::cout << "fail to load play button";
+		success = false;
+	}
     return success;
 }
 
@@ -95,6 +110,7 @@ void close()
     gBackgroundTexture.free();
 	gGroundTexture.free();
 	gBirdTexture.free();
+	gPipeTexture.free();
     SDL_DestroyRenderer(gRenderer);
     SDL_DestroyWindow(gWindow);
     gWindow = NULL;

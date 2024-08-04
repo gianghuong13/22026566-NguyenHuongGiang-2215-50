@@ -67,9 +67,22 @@ bool LTexture::loadFromFile(std::string path, SDL_Renderer *gRenderer)
     return mTexture != NULL;
 }
 
-void LTexture::render(int x, int y, SDL_Renderer* gRenderer, SDL_Rect* clip)
+// void LTexture::render(int x, int y, SDL_Renderer* gRenderer, SDL_Rect* clip)
+// {
+//     SDL_Rect renderQuad = {x, y, mWidth, mHeight};
+
+//     if (clip != NULL)
+//     {
+//         renderQuad.w = clip->w;
+//         renderQuad.h = clip->h;
+//     }
+
+//     SDL_RenderCopy(gRenderer, mTexture, NULL, &renderQuad);
+// }
+
+void LTexture::render(int x, int y, SDL_Renderer* gRenderer, SDL_Rect* clip, double angle, SDL_Point* center, SDL_RendererFlip flip)
 {
-    SDL_Rect renderQuad = {x, y, mWidth, mHeight};
+    SDL_Rect renderQuad = { x, y, mWidth, mHeight };
 
     if (clip != NULL)
     {
@@ -77,5 +90,5 @@ void LTexture::render(int x, int y, SDL_Renderer* gRenderer, SDL_Rect* clip)
         renderQuad.h = clip->h;
     }
 
-    SDL_RenderCopy(gRenderer, mTexture, NULL, &renderQuad);
+    SDL_RenderCopyEx(gRenderer, mTexture, clip, &renderQuad, angle, center, flip);
 }
