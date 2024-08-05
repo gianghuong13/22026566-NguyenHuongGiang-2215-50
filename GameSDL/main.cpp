@@ -18,6 +18,9 @@ int main(int argc, char* argv[])
             SDL_Event e;
             int scrollingOffset = 0;
             bool gameStarted = false;
+            bool gameOver = false;
+            bool restart = false;
+            int score = 0;
 
             pipes.push_back(Pipe(SCREEN_WIDTH, GROUND_POS_Y - PIPE_HEIGHT));
 
@@ -29,14 +32,31 @@ int main(int argc, char* argv[])
                     {
                         quit = true;
                     }
-        
-                    if(!gameStarted && e.type == SDL_KEYDOWN && e.key.keysym.sym == SDLK_SPACE) 
+                    
+                    if (gameOver) 
                     {
-                        gameStarted = true;
+                        handleRestartButton(e, quit, restart, gRestartButton);
+                        if (restart) {
+                            gameStarted = false;
+                            gameOver = false;
+                            restart = false;
+                            score = 0;
+                            bird = Bird();
+                            pipes.clear();
+                            pipes.push_back(Pipe(SCREEN_WIDTH, GROUND_POS_Y - PIPE_HEIGHT));
+                        }
                     }
-                    bird.handleEvent(e);
+                    else 
+                    {
+                        if(!gameStarted && e.type == SDL_KEYDOWN && e.key.keysym.sym == SDLK_SPACE) 
+                        {
+                            gameStarted = true;
+                        }
+                        bird.handleEvent(e);
+                    }
                 }
-                if (gameStarted)
+
+                if (gameStarted && !gameOver)
                 {
                     bird.move();
 
@@ -47,12 +67,19 @@ int main(int argc, char* argv[])
                     if (pipes.size() > 0 && pipes[0].isOffScreen()) {
                         pipes.erase(pipes.begin());
                         pipes.push_back(Pipe(SCREEN_WIDTH, GROUND_POS_Y - PIPE_HEIGHT + (rand() % (PIPE_HEIGHT/2))));
+                        score++;
                     }
+                    
+                    if (checkCollision(bird, pipes)) {
+                        gameOver = true;
+                    }
+
                 }
 
                 SDL_RenderClear(gRenderer);
                 gBackgroundTexture.render(0, 0, gRenderer);
                 bird.render(gRenderer, gBirdTexture);
+
                 if (gameStarted) {
                     for (auto pipe : pipes) {
                         pipe.render(gRenderer, gPipeTexture);
@@ -60,9 +87,13 @@ int main(int argc, char* argv[])
                 }
                 
                 renderScrollingGround(scrollingOffset, gGroundTexture, gRenderer);
-                if (checkCollision(bird, pipes)) {
-                    quit = true;
+
+                renderScore(gRenderer, score);
+                
+                if (gameOver) {
+                    gRestartButton.render(gRenderer, gRestartButtonTexture);
                 }
+
                 SDL_RenderPresent(gRenderer);
             }
 

@@ -8,6 +8,7 @@
 #include "Pipe.h"
 #include "Functions.h"
 #include "LButton.h"
+#include "NumTexture.h"
 
 bool init();
 bool loadMedia();
@@ -16,13 +17,17 @@ void close();
 SDL_Window* gWindow = NULL;
 SDL_Renderer* gRenderer = NULL;
 
+TTF_Font* gFont = NULL;
+
 LTexture gBackgroundTexture;
 LTexture gGroundTexture;
 LTexture gBirdTexture;
 LTexture gPipeTexture;
-LTexture gPlayButtonTexture;
+LTexture gRestartButtonTexture;
+LTexture gNumberTextures[10];
+LTexture gScoreTexture;
 
-LButton gPlayButton(PLAY_BUTTON_POS_X, PLAY_BUTTON_POS_Y);
+LButton gRestartButton(RESTART_BUTTON_POS_X, RESTART_BUTTON_POS_Y);
 
 Bird bird;
 std::vector<Pipe> pipes;
@@ -69,6 +74,12 @@ bool init()
 					success = false;
 				}
 
+				if (TTF_Init() == -1)
+				{
+					std::cout << "Can not initialize SDL_ttf" << TTF_GetError() << std::endl;
+					success = false;
+				}
+
     
 			}
 		}
@@ -98,10 +109,23 @@ bool loadMedia()
 		std::cout << "fail to load pipe";
 		success = false;
 	}
-	if (!gPlayButtonTexture.loadFromFile("assets/images/PlayBtn.png", gRenderer)) {
-		std::cout << "fail to load play button";
+	if (!gRestartButtonTexture.loadFromFile("assets/images/PlayBtn.png", gRenderer)) {
+		std::cout << "fail to load restart button";
 		success = false;
 	}
+	for (int i = 0; i < 10; ++i) {
+		std::string path = "assets/images/Numbers/" + std::to_string(i) + ".png";
+        if (!gNumberTextures[i].loadFromFile(path, gRenderer)) {
+            std::cout << "Failed to load number texture: " << path << std::endl;
+            success = false;
+        }
+    }
+	gFont = TTF_OpenFont("assets/fonts/QuinqueFive.ttf", 28);
+	if (gFont == NULL) {
+		std::cout << "Failed to load font" << TTF_GetError() << std::endl;
+		success = false;
+	}
+	
     return success;
 }
 
@@ -111,6 +135,8 @@ void close()
 	gGroundTexture.free();
 	gBirdTexture.free();
 	gPipeTexture.free();
+	gRestartButtonTexture.free();
+
     SDL_DestroyRenderer(gRenderer);
     SDL_DestroyWindow(gWindow);
     gWindow = NULL;

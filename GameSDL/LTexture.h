@@ -22,9 +22,8 @@ public:
 
     int getHeight();
 
-private:
     SDL_Texture *mTexture;
-
+private:
     int mWidth;
     int mHeight;
 };

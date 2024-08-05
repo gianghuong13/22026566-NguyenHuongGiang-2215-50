@@ -9,6 +9,8 @@
 #include <string>
 #include <cmath>
 #include <vector>
+#include <fstream>
+#include <sstream>
 
 const int SCREEN_WIDTH = 288;
 const int SCREEN_HEIGHT = 390;
@@ -19,7 +21,7 @@ const int GROUND_WIDTH = 288;
 const int GROUND_HEIGHT = 65;
 const int GROUND_POS_Y = SCREEN_HEIGHT - GROUND_HEIGHT;
 
-const int PLAY_BUTTON_POS_X = 100;
-const int PLAY_BUTTON_POS_Y = 150;
+const int RESTART_BUTTON_POS_X = 100;
+const int RESTART_BUTTON_POS_Y = 150;
 
 #endif // BASE_H
