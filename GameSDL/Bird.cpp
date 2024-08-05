@@ -49,12 +49,29 @@ void Bird::move() {
     
 }
 
+void Bird::fall() {
+    mVelY += FALL_VEL;
+    mPosY += mVelY;
+
+    if (isOnGround()) {
+        mPosY = GROUND_POS_Y - BIRD_HEIGHT;
+        mVelY = 0;
+    }
+}
+
 int Bird::getPosX() {
     return mPosX;
 }
 
 float Bird::getPosY() {
-    return static_cast<int>(mPosY);
+    return mPosY;
 }
 
+int Bird::getStatus() {
+    return status;
+}
+
+void Bird::setStatus(int newStatus) {
+    status = newStatus;
+}
 

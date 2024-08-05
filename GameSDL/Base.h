@@ -21,7 +21,10 @@ const int GROUND_WIDTH = 288;
 const int GROUND_HEIGHT = 65;
 const int GROUND_POS_Y = SCREEN_HEIGHT - GROUND_HEIGHT;
 
-const int RESTART_BUTTON_POS_X = 100;
-const int RESTART_BUTTON_POS_Y = 150;
+const int RESTART_BUTTON_POS_X = 120;
+const int RESTART_BUTTON_POS_Y = 220;
+
+const int SCORE_BOARD_POS_X = 100;
+const int SCORE_BOARD_POS_Y = 70;
 
 #endif // BASE_H

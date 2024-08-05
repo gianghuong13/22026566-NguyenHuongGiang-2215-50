@@ -4,7 +4,6 @@
 #include "Bird.h"
 #include "Pipe.h"
 #include "Base.h"
-//#include<vector>
 #include "LTexture.h"
 
 extern LTexture gNumberTextures[10];

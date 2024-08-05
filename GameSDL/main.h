@@ -8,7 +8,6 @@
 #include "Pipe.h"
 #include "Functions.h"
 #include "LButton.h"
-#include "NumTexture.h"
 
 bool init();
 bool loadMedia();
@@ -25,7 +24,7 @@ LTexture gBirdTexture;
 LTexture gPipeTexture;
 LTexture gRestartButtonTexture;
 LTexture gNumberTextures[10];
-LTexture gScoreTexture;
+LTexture gScoreBoardTexture;
 
 LButton gRestartButton(RESTART_BUTTON_POS_X, RESTART_BUTTON_POS_Y);
 
@@ -113,6 +112,10 @@ bool loadMedia()
 		std::cout << "fail to load restart button";
 		success = false;
 	}
+	if (!gScoreBoardTexture.loadFromFile("assets/images/bg.png", gRenderer)) {
+		std::cout << "fail to load board texture";
+		success = false;
+	}
 	for (int i = 0; i < 10; ++i) {
 		std::string path = "assets/images/Numbers/" + std::to_string(i) + ".png";
         if (!gNumberTextures[i].loadFromFile(path, gRenderer)) {
@@ -136,6 +139,10 @@ void close()
 	gBirdTexture.free();
 	gPipeTexture.free();
 	gRestartButtonTexture.free();
+	gScoreBoardTexture.free();
+	for(int i = 0; i < 10; ++i) {
+		gNumberTextures[i].free();
+	}
 
     SDL_DestroyRenderer(gRenderer);
     SDL_DestroyWindow(gWindow);

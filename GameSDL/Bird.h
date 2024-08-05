@@ -26,6 +26,8 @@ public:
 
     void move();
 
+    void fall();
+
     void render(SDL_Renderer *gRenderer, LTexture &gBirdTexture);
 
     int getPosX();
@@ -33,6 +35,10 @@ public:
     float getPosY();
 
     bool isOnGround();
+
+    int getStatus();
+
+    void setStatus(int status);
 };
 
 #endif // BIRD_H
