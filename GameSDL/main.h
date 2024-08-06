@@ -16,7 +16,8 @@ void close();
 SDL_Window* gWindow = NULL;
 SDL_Renderer* gRenderer = NULL;
 
-TTF_Font* gFont = NULL;
+TTF_Font* gFont = nullptr;
+Mix_Chunk* gDeadSound = NULL;
 
 LTexture gBackgroundTexture;
 LTexture gGroundTexture;
@@ -25,6 +26,9 @@ LTexture gPipeTexture;
 LTexture gRestartButtonTexture;
 LTexture gNumberTextures[10];
 LTexture gScoreBoardTexture;
+LTexture gInstructionTexture;
+LTexture gBestTexture;
+LTexture gScoreTexture;
 
 LButton gRestartButton(RESTART_BUTTON_POS_X, RESTART_BUTTON_POS_Y);
 
@@ -79,6 +83,11 @@ bool init()
 					success = false;
 				}
 
+				if(Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048) < 0) {
+					std::cout << "Can not initialize SDL_mixer" << Mix_GetError() << std::endl;
+					success = false;
+				}
+
     
 			}
 		}
@@ -90,6 +99,27 @@ bool init()
 bool loadMedia()
 {
     bool success = true;
+
+	gFont = TTF_OpenFont("assets/fonts/QuinqueFive.ttf", 10);
+	if (gFont == NULL) {
+		std::cout << "Failed to load font" << TTF_GetError() << std::endl;
+		success = false;
+	} else {
+		if(!gScoreTexture.loadFromRenderedText("SCORE", gFont, {0, 0, 0}, gRenderer)) {
+			std::cout << "Failed to render score" << std::endl;
+			success = false;
+		}
+		if(!gBestTexture.loadFromRenderedText("BEST", gFont, {0, 0, 0}, gRenderer)) {
+			std::cout << "Failed to render best score" << std::endl;
+			success = false;
+		}
+	}
+	
+	gDeadSound = Mix_LoadWAV("assets/sounds/die.wav");
+	if (gDeadSound == NULL) {
+		std::cout << "Failed to load dead sound" << Mix_GetError() << std::endl;
+		success = false;
+	}
 
     if (!gBackgroundTexture.loadFromFile("assets/images/background-day.png", gRenderer))
     {
@@ -116,6 +146,10 @@ bool loadMedia()
 		std::cout << "fail to load board texture";
 		success = false;
 	}
+	if (!gInstructionTexture.loadFromFile("assets/images/message.png", gRenderer)) {
+		std::cout << "fail to load instruction texture";
+		success = false;
+	}
 	for (int i = 0; i < 10; ++i) {
 		std::string path = "assets/images/Numbers/" + std::to_string(i) + ".png";
         if (!gNumberTextures[i].loadFromFile(path, gRenderer)) {
@@ -123,11 +157,6 @@ bool loadMedia()
             success = false;
         }
     }
-	gFont = TTF_OpenFont("assets/fonts/QuinqueFive.ttf", 28);
-	if (gFont == NULL) {
-		std::cout << "Failed to load font" << TTF_GetError() << std::endl;
-		success = false;
-	}
 	
     return success;
 }
@@ -140,10 +169,11 @@ void close()
 	gPipeTexture.free();
 	gRestartButtonTexture.free();
 	gScoreBoardTexture.free();
+	gInstructionTexture.free();
 	for(int i = 0; i < 10; ++i) {
 		gNumberTextures[i].free();
 	}
-
+	Mix_FreeChunk(gDeadSound);
     SDL_DestroyRenderer(gRenderer);
     SDL_DestroyWindow(gWindow);
     gWindow = NULL;

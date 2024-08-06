@@ -54,13 +54,14 @@ void renderScore(SDL_Renderer* gRenderer, int score, LTexture* gNumberTextures,
 void renderGameOverState(SDL_Renderer* gRenderer, LTexture &gScoreBoardTexture, 
 						LTexture &gRestartButtonTexture, int score, int highScore, 
 						LButton &gRestartButton, Bird &bird, LTexture &gBirdTexture,
-						LTexture* gNumberTextures) 
+						LTexture* gNumberTextures, LTexture &gBestTexture, LTexture &gScoreTexture) 
 {
 	bird.fall();
 	bird.render(gRenderer, gBirdTexture);
 
 	gScoreBoardTexture.render(SCORE_BOARD_POS_X, SCORE_BOARD_POS_Y, gRenderer);
-
+	gBestTexture.render(SCORE_BOARD_POS_X + 25, SCORE_BOARD_POS_Y + 5, gRenderer);
+	gScoreTexture.render(SCORE_BOARD_POS_X + 18, SCORE_BOARD_POS_Y + 65, gRenderer);
 	renderScore(gRenderer, score, gNumberTextures, SCORE_BOARD_POS_X + 25, SCORE_BOARD_POS_Y + 80);
 
 	std::string highScoreText = std::to_string(highScore);

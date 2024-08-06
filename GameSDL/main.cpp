@@ -33,7 +33,6 @@ int main(int argc, char* argv[])
                     {
                         quit = true;
                     }
-                    
                     if (gameOver) 
                     {
                         handleRestartButton(e, quit, restart, gRestartButton);
@@ -81,6 +80,7 @@ int main(int argc, char* argv[])
                     }
                     
                     if (checkCollision(bird, pipes)) {
+                        Mix_PlayChannel(-1, gDeadSound, 0);
                         gameOver = true;
                         updateHighScore("score.txt", score);
                         highScore = readScoreFromFile("score.txt");
@@ -99,9 +99,14 @@ int main(int argc, char* argv[])
                 }
                 
                 renderScrollingGround(scrollingOffset, gGroundTexture, gRenderer, gameOver);
+
+                if(!gameStarted) {
+                    gInstructionTexture.render(INSTRUCTION_POS_X, INSTRUCTION_POS_Y, gRenderer);
+                }
                 
                 if (gameOver) {
-                    renderGameOverState(gRenderer, gScoreBoardTexture, gRestartButtonTexture, score, highScore, gRestartButton, bird, gBirdTexture, gNumberTextures);
+                    renderGameOverState(gRenderer, gScoreBoardTexture, gRestartButtonTexture, score, highScore, 
+                    gRestartButton, bird, gBirdTexture, gNumberTextures, gBestTexture, gScoreTexture);
                 } else {
                     renderScore(gRenderer, score, gNumberTextures, SCREEN_WIDTH/2 - 10, 50);
                 }

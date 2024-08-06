@@ -27,4 +27,7 @@ const int RESTART_BUTTON_POS_Y = 220;
 const int SCORE_BOARD_POS_X = 100;
 const int SCORE_BOARD_POS_Y = 70;
 
+const int INSTRUCTION_POS_X = (SCREEN_WIDTH - 100)/2;
+const int INSTRUCTION_POS_Y = SCREEN_HEIGHT / 2;
+
 #endif // BASE_H
