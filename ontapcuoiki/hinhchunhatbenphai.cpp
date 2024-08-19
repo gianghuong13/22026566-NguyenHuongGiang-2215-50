@@ -1,33 +1,36 @@
 #include<bits/stdc++.h>
 using namespace std;
-void check_inside(int m, int n, int x, int y, int w, int h) {
+bool check_inside(int m, int n, int x, int y, int w, int h) {
 	int x2 = x + w;
 	int y2 = y + h;
-	
+	return (x>=0 && y>=0 && x2<=m && y2<=n);
 }
 
 int main() {
     int m, n, k;
     cin >> m >> n >> k;
     
-    int maxRight = -1; // Luu mép ph?i xa nh?t trong các hình ch? nh?t h?p l?
-    int count = 0;     // Ð?m s? hình ch? nh?t có mép ph?i xa nh?t
+    int maxRight = -1; 
+    int count = 0;     
 
     while (k--) {
         int x, y, w, h;
         cin >> x >> y >> w >> h;
         
-        int x2 = x + w; // T?a d? mép ph?i c?a hình ch? nh?t
+        if (check_inside(m,n,x,y,w,h)) {
+        	int x2 = x + w; 
 
-        // Ki?m tra hình ch? nh?t có mép ph?i không vu?t quá ho?c ch?m mép ph?i màn hình
-        if (x2 < m) {
-            if (x2 > maxRight) {
-                maxRight = x2;
-                count = 1;  // Kh?i d?ng l?i d?m
-            } else if (x2 == maxRight) {
-                count++;  // Tang d?m n?u có thêm hình ch? nh?t có mép ph?i tuong t?
-            }
-        }
+        	// kiem tra vuot qua hoac cham mep phai
+        	if (x2 < m) {
+            	if (x2 > maxRight) {
+                	maxRight = x2;
+                	count = 1;  //khoi dong lai bien dem
+            	} else if (x2 == maxRight) {
+                	count++;  //tang neu co mep phai tuong tu
+            	}
+        	}
+		}
+        
     }
     
     cout << count << endl;
