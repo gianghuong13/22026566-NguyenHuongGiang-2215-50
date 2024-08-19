@@ -22,14 +22,14 @@ int main() {
 
         	// kiem tra vuot qua hoac cham mep phai
         	if (x2 < m) {
-            	if (x2 > maxRight) {
-                	maxRight = x2;
-                	count = 1;  //khoi dong lai bien dem
-            	} else if (x2 == maxRight) {
-                	count++;  //tang neu co mep phai tuong tu
-            	}
+            		if (x2 > maxRight) {
+                		maxRight = x2;
+                		count = 1;  //khoi dong lai bien dem
+            		} else if (x2 == maxRight) {
+                		count++;  //tang neu co mep phai tuong tu
+            		}
         	}
-		}
+	}
         
     }
     
